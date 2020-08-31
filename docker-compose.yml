@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+    db-service:
+        image: mongo:latest
+        build: ./db
+        ports:
+        - "27017:27017"
+    web:
+        image: openjdk:14-alpine
+        build: .
+        ports:
+        - "8081:8081"
+        environment: 
+        - spring.data.mongodb.host=db-service
+        - spring.data.mongodb.port=27017
+        - spring.data.mongodb.database=test
+        depends_on: ["db-service"]
